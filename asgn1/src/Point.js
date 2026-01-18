@@ -12,6 +12,9 @@ class Point {
       var xy = this.position;
       var rgba = this.color;
       var size = this.size;
+
+      // Quit using the buffer to send the attribute
+      gl.disableVertexAttribArray(a_Position);
   
       // Pass the position of a point to a_Position variable
       gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);

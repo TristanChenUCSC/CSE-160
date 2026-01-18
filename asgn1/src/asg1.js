@@ -28,7 +28,7 @@ function setupWebGL() {
   canvas = document.getElementById('webgl');
 
   // Get the rendering context for WebGL
-  gl = getWebGLContext(canvas);
+  gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
   if (!gl) {
     console.log('Failed to get the rendering context for WebGL');
     return;
@@ -64,17 +64,25 @@ function connectVariablesToGLSL() {
   }
 }
 
+// Constants
+const POINT = 0;
+const TRIANGLE = 1;
+const CIRCLE = 2;
+
 // UI Globals
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
+let g_selectedType = POINT
+let g_circleSegments = 8;
 
 function addActionsForHtmlUI() {
 
   // Buttons
-  document.getElementById('green').onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
-  document.getElementById('red').onclick = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
-
   document.getElementById('clearButton').onclick = function() { g_shapesList = []; renderAllShapes(); };
+
+  document.getElementById('pointButton').onclick = function() { g_selectedType = POINT; };
+  document.getElementById('triButton').onclick = function() { g_selectedType = TRIANGLE; };
+  document.getElementById('circleButton').onclick = function() { g_selectedType = CIRCLE; };
 
   // Sliders
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100; });
@@ -82,6 +90,7 @@ function addActionsForHtmlUI() {
   document.getElementById('blueSlide').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/100; });
 
   document.getElementById('sizeSlide').addEventListener('mouseup', function() { g_selectedSize = this.value; });
+  document.getElementById('segmentSlide').addEventListener('mouseup', function() { g_circleSegments = this.value; });
 }
 
 function main() {
@@ -93,6 +102,7 @@ function main() {
 
   // Register function (event handler) to be called on a mouse press
   canvas.onmousedown = click;
+  canvas.onmousemove = function(ev) { if(ev.buttons == 1) { click(ev) } };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -108,7 +118,17 @@ function click(ev) {
   let [x, y] = convertCoordinatesEventToGL(ev);
 
   // Create and store new point
-  let point = new Point();
+  let point;
+  if (g_selectedType == POINT) {
+    point = new Point();
+  }
+  else if (g_selectedType == TRIANGLE) {
+    point = new Triangle();
+  }
+  else if (g_selectedType == CIRCLE) {
+    point = new Circle();
+    point.segments = g_circleSegments;
+  }
   point.position = [x, y];
   point.color = g_selectedColor.slice();
   point.size = g_selectedSize;
@@ -129,11 +149,31 @@ function convertCoordinatesEventToGL(ev) {
 }
 
 function renderAllShapes() {
+
+  // Check the time at the start of this function
+  var startTime = performance.now();
+
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
+  // Draw each shape in the shapes list
   var len = g_shapesList.length;
   for(var i = 0; i < len; i++) {
     g_shapesList[i].render();
   }
+  
+  // Check the time at the end of this function and show on webpage
+  var duration = performance.now() - startTime;
+  sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration)/10, "numdot");
+
+}
+
+// Set the text of a HTML element
+function sendTextToHTML(text, htmlID) {
+  var htmlElm = document.getElementById(htmlID);
+  if(!htmlElm) {
+    console.log("Failed to get " + htmlID + " from HTML");
+    return;
+  }
+  htmlElm.innerHTML = text;
 }
