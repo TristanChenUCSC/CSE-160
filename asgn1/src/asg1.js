@@ -78,8 +78,10 @@ let g_circleSegments = 8;
 function addActionsForHtmlUI() {
 
   // Buttons
-  document.getElementById('clearButton').onclick = function() { g_shapesList = []; renderAllShapes(); };
+  document.getElementById('clearButton').onclick = function() { g_shapesList = []; undoStack = []; renderAllShapes(); };
   document.getElementById('snakesButton').onclick = function() { drawSnakes(); };
+  document.getElementById('undoButton').onclick = function() { undo(); };
+  document.getElementById('redoButton').onclick = function() { redo(); };
 
   document.getElementById('pointButton').onclick = function() { g_selectedType = POINT; };
   document.getElementById('triButton').onclick = function() { g_selectedType = TRIANGLE; };
@@ -89,6 +91,8 @@ function addActionsForHtmlUI() {
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100; });
   document.getElementById('greenSlide').addEventListener('mouseup', function() {g_selectedColor[1] = this.value/100; });
   document.getElementById('blueSlide').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/100; });
+  document.getElementById('alphaSlide').addEventListener('mouseup', function() { g_selectedColor[3] = this.value/100; });
+
 
   document.getElementById('sizeSlide').addEventListener('mouseup', function() { g_selectedSize = this.value; });
   document.getElementById('segmentSlide').addEventListener('mouseup', function() { g_circleSegments = this.value; });
@@ -97,6 +101,9 @@ function addActionsForHtmlUI() {
 function main() {
   setupWebGL();
   connectVariablesToGLSL();
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   // Set up actions for HTML UI elements
   addActionsForHtmlUI();
@@ -134,6 +141,7 @@ function click(ev) {
   point.color = g_selectedColor.slice();
   point.size = g_selectedSize;
   g_shapesList.push(point);
+  undoStack = [];
 
   renderAllShapes();
 }
@@ -177,6 +185,25 @@ function sendTextToHTML(text, htmlID) {
     return;
   }
   htmlElm.innerHTML = text;
+}
+
+
+let undoStack = [];
+
+function undo() {
+  if (g_shapesList.length > 0) {
+    let shape = g_shapesList.pop();
+    undoStack.push(shape);
+    renderAllShapes();
+  }
+}
+
+function redo() {
+  if (undoStack.length > 0) {
+    let shape = undoStack.pop();
+    g_shapesList.push(shape);
+    renderAllShapes();
+  }
 }
 
 function drawSnakes() {
