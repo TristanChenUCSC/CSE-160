@@ -79,6 +79,7 @@ function addActionsForHtmlUI() {
 
   // Buttons
   document.getElementById('clearButton').onclick = function() { g_shapesList = []; renderAllShapes(); };
+  document.getElementById('snakesButton').onclick = function() { drawSnakes(); };
 
   document.getElementById('pointButton').onclick = function() { g_selectedType = POINT; };
   document.getElementById('triButton').onclick = function() { g_selectedType = TRIANGLE; };
@@ -176,4 +177,414 @@ function sendTextToHTML(text, htmlID) {
     return;
   }
   htmlElm.innerHTML = text;
+}
+
+function drawSnakes() {
+  g_shapesList = [];
+  let triangle;
+
+  // First snake
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.5, 0.6, -0.5, 0.3, -0.4, 0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.3, -0.5, 0.3, -0.4, 0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.5, -0.4, 0.6, -0.3, 0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.6, 0.5, -0.5, 0.6, -0.5, 0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.6, 0.5, -0.6, 0.4, -0.5, 0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.5, 0.3, -0.6, 0.4, -0.5, 0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.4, -0.4, 0.5, -0.3, 0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.4, -0.4, 0.5, -0.3, 0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.4, -0.3, 0.4, -0.3, 0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.3, -0.4, 0.4, -0.3, 0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.4, -0.4, 0.5, -0.3, 0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.5, 0.3, -0.4, 0.3, -0.5, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.2, -0.4, 0.3, -0.5, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.2, -0.4, 0.1, -0.5, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.2, -0.4, 0.1, 0.1, 0.1];
+  g_shapesList.push(triangle);
+  
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.1, 0.2, -0.4, 0.2, 0.1, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.1, 0.2, 0.2, 0.2, 0.1, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.1, 0.2, 0.2, 0.2, 0.2, 0.3];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.5, 0.6, -0.5, 0.7, -0.4, 0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.5, 0.6, -0.4, 0.7, -0.4, 0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.53, 0.45, -0.53, 0.55, -0.48, 0.45];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.53, 0.55, -0.48, 0.55, -0.48, 0.45];
+  g_shapesList.push(triangle);
+  
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.43, 0.45, -0.43, 0.55, -0.38, 0.45];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.38, 0.55, -0.43, 0.55, -0.38, 0.45];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.53, 0.55, -0.505, 0.50, -0.48, 0.55];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.43, 0.55, -0.405, 0.50, -0.38, 0.55];
+  g_shapesList.push(triangle);
+  
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.4, 0.1, -0.3, 0.1, -0.35, 0.15];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, 0.2, -0.15, 0.15, -0.1, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0, 0.1, 0.05, 0.15, 0.1, 0.1];
+  g_shapesList.push(triangle);
+
+  // Second snake
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, 0.1, -0.1, 0, -0.2, 0];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.8, -0.1, 0, -0.2, 0];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.8, -0.1, 0, -0.1, -0.8];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.5, -0.2, -0.6, -0.3, -0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.7, -0.2, -0.6, -0.3, -0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.7, -0.3, -0.6, -0.3, -0.7];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.7, -0.2, -0.8, -0.3, -0.7];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.5, -0.1, -0.6, 0, -0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.7, -0.1, -0.6, 0, -0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.7, 0, -0.7, 0, -0.6];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.7, -0.1, -0.8, 0, -0.7];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.8, -0.2, -0.8, -0.1, -0.9];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.8, -0.1, -0.8, -0.2, -0.9];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.23, -0.65, -0.23, -0.75, -0.18, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.23, -0.65, -0.18, -0.65, -0.18, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.13, -0.65, -0.13, -0.75, -0.08, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [-0.13, -0.65, -0.08, -0.65, -0.08, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.23, -0.75, -0.205, -0.7, -0.18, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [-0.13, -0.75, -0.105, -0.7, -0.08, -0.75];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, 0, -0.15, -0.05, -0.1, -0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.2, -0.2, -0.15, -0.25, -0.2, -0.3];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [-0.1, -0.4, -0.15, -0.45, -0.1, -0.5];
+  g_shapesList.push(triangle);
+
+  // Third Snake
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.3, 0.1, 0.4, 0.1, 0.4, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.4, 0.2, 0.9, 0.2, 0.4, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.9, 0.1, 0.9, 0.2, 0.4, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.6, 0.2, 0.7, 0.2, 0.7, 0.3];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.7, 0.3, 0.8, 0.3, 0.7, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.7, 0.2, 0.8, 0.2, 0.8, 0.3];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.8, 0.3, 0.8, 0.2, 0.9, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.6, 0.1, 0.7, 0.1, 0.7, 0];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.7, 0, 0.7, 0.1, 0.8, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.8, 0.1, 0.8, 0, 0.7, 0];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.8, 0, 0.8, 0.1, 0.9, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.3, 0.1, 0.3, -0.4, 0.4, -0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.3, 0.1, 0.4, -0.4, 0.4, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.3, -0.4, 0.4, -0.4, 0.4, -0.5];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.4, -0.5, 0.4, -0.4, 0.7, -0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.4, -0.5, 0.7, -0.5, 0.7, -0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.7, -0.5, 0.7, -0.4, 0.8, -0.4];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [0.9, 0.2, 1.0, 0.2, 0.9, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [0.9, 0.2, 1.0, 0.1, 0.9, 0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [0.75, 0.23, 0.75, 0.18, 0.85, 0.23];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [0.85, 0.18, 0.75, 0.18, 0.85, 0.23];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [0.85, 0.08, 0.75, 0.08, 0.85, 0.13];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [1.0, 1.0, 1.0, 1.0];
+  triangle.customVertices = [0.75, 0.13, 0.75, 0.08, 0.85, 0.13];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [0.85, 0.23, 0.8, 0.205, 0.85, 0.18];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.0, 0.0, 0.0, 1.0];
+  triangle.customVertices = [0.85, 0.13, 0.8, 0.105, 0.85, 0.08];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.4, 0.2, 0.45, 0.15, 0.5, 0.2];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.4, 0.0, 0.35, -0.05, 0.4, -0.1];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.3, -0.2, 0.35, -0.25, 0.3, -0.3];
+  g_shapesList.push(triangle);
+
+  triangle = new Triangle();
+  triangle.color = [0.9, 1.0, 0.0, 1.0];
+  triangle.customVertices = [0.5, -0.5, 0.55, -0.45, 0.6, -0.5];
+  g_shapesList.push(triangle);
+
+  renderAllShapes();
 }

@@ -5,6 +5,7 @@ class Triangle {
         this.position = [0.0, 0.0, 0.0,]
         this.color = [1.0, 1.0, 1.0, 1.0];
         this.size = 5.0;
+        this.customVertices = [];
     }
 
     // Render this triangle
@@ -20,7 +21,14 @@ class Triangle {
 
         // Draw
         var d = this.size/200.0; // delta
-        drawTriangle([xy[0], xy[1], xy[0]+d, xy[1], xy[0], xy[1]+d]);
+        if (this.customVertices.length == 0) {
+            drawTriangle([xy[0], xy[1], xy[0]+d, xy[1], xy[0], xy[1]+d]);
+        } else {
+            let vertices = this.customVertices;
+            drawTriangle([vertices[0], vertices[1],
+                          vertices[2], vertices[3],
+                          vertices[4], vertices[5]]);
+        }
     }
 }
 
