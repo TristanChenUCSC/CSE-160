@@ -7,7 +7,7 @@
 
   <body onload="main()">
     <h5>Tristan Chen || trzchen@ucsc.edu</h5>
-    <h5>Notes to Grader: My awesome features include an undo system and transparent paint using alpha.</h5>
+    <h5>Notes to Grader: </h5>
     <canvas id="webgl" width="400" height="400">
     Please use a browser that supports "canvas"
     </canvas>
@@ -16,9 +16,6 @@
     <p id="numdot"> XXX </p>
 
     <button type="button" id="clearButton">Clear</button>
-    <button type="button" id="snakesButton">Draw Snakes</button>
-    <button type="button" id="undoButton">Undo</button>
-    <button type="button" id="redoButton">Redo</button>
 
     <p>
     <label>Drawing Mode: </label>
@@ -30,19 +27,16 @@
     Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlide">
     Green <input type="range" min="0" max="100" value="100" class="slider" id="greenSlide">
     Blue <input type="range" min="0" max="100" value="100" class="slider" id="blueSlide">
-    Alpha <input type="range" min="0" max="100" value="100" class="slider" id="alphaSlide">
     </p>
 
     <p>
-    Size <input type="range" min="5" max="40" value="5" class="slider" id="sizeSlide">
-    (Circles) Segment Count <input type="range" min="8" max="40" value="8" class="slider" id="segmentSlide">
+    Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="angleSlide">
     </p>
-
-    <img src="../snakes.jpg" alt="snakes" width="20%">
 
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
     <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix.js"></script>
     <script src="Triangle.js"></script>
     <script src="Circle.js"></script>
     <script src="Point.js"></script>
