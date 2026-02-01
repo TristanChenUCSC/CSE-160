@@ -3,6 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <title>Assignment 2</title>
+    <style>
+      .row {
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+      }
+
+      .column {
+        flex: 0.4;
+      }
+    </style>
   </head>
 
   <body onload="main()">
@@ -12,26 +23,88 @@
     Please use a browser that supports "canvas"
     </canvas>
     <p>
-    
-    <p id="numdot"> XXX </p>
+    <div class="row">
+      <div class="column">
+        <p id="numdot"> XXX </p>
+        <p>
+        Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="angleSlide">
+        </p>
 
-    <button type="button" id="clearButton">Clear</button>
+        <p>
+          <label>Left Upper Arm:</label>
+          <br>
+          X <input type="range" min="-45" max="90" value="0" class="slider" id="LeftUpperArmSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="LeftUpperArmSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="LeftUpperArmSlideZ">
+          <br>
+          
+          <label>Left Lower Arm:</label>
+          <br>
+          X <input type="range" min="0" max="90" value="0" class="slider" id="LeftLowerArmSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="LeftLowerArmSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="LeftLowerArmSlideZ">
+          <br>
+          <label>Left Hoof:</label>
+          <br>
+          X <input type="range" min="0" max="90" value="0" class="slider" id="LeftHoofSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="LeftHoofSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="LeftHoofSlideZ">
+          <br>
 
-    <p>
-    <label>Drawing Mode: </label>
-    <button type="button" id="pointButton">Point</button>
-    <button type="button" id="triButton">Triangle</button>
-    <button type="button" id="circleButton">Circle</button>
+          <br>
 
-    <p>
-    Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlide">
-    Green <input type="range" min="0" max="100" value="100" class="slider" id="greenSlide">
-    Blue <input type="range" min="0" max="100" value="100" class="slider" id="blueSlide">
-    </p>
+          <label>Right Upper Arm:</label>
+          <br>
+          X <input type="range" min="-45" max="90" value="0" class="slider" id="RightUpperArmSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="RightUpperArmSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="RightUpperArmSlideZ">
+          <br>
 
-    <p>
-    Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="angleSlide">
-    </p>
+          <label>Right Lower Arm:</label>
+          <br>
+          X <input type="range" min="0" max="90" value="0" class="slider" id="RightLowerArmSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="RightLowerArmSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="RightLowerArmSlideZ">
+          <br>
+          
+          <label>Right Hoof:</label>
+          <br>
+          X <input type="range" min="0" max="90" value="0" class="slider" id="RightHoofSlideX">
+          Y <input type="range" min="-30" max="30" value="0" class="slider" id="RightHoofSlideY">
+          Z <input type="range" min="-30" max="30" value="0" class="slider" id="RightHoofSlideZ">
+        </p>
+      </div>
+      <div class="column">
+        <p>
+          <label>Head:</label>
+          <br>
+          X <input type="range" min="-15" max="15" value="0" class="slider" id="HeadSlideX">
+          Y <input type="range" min="-25" max="25" value="0" class="slider" id="HeadSlideY">
+          Z <input type="range" min="-10" max="10" value="0" class="slider" id="HeadSlideZ">
+          <br>
+
+          <br>
+
+          <label>Left Leg:</label>
+          <br>
+          X <input type="range" min="-45" max="90" value="0" class="slider" id="LeftLegSlideX">
+          Y <input type="range" min="-45" max="45" value="0" class="slider" id="LeftLegSlideY">
+          Z <input type="range" min="-45" max="45" value="0" class="slider" id="LeftLegSlideZ">
+          <br>
+
+          <br>
+
+          <label>Right Leg:</label>
+          <br>
+          X <input type="range" min="-45" max="90" value="0" class="slider" id="RightLegSlideX">
+          Y <input type="range" min="-45" max="45" value="0" class="slider" id="RightLegSlideY">
+          Z <input type="range" min="-45" max="45" value="0" class="slider" id="RightLegSlideZ">
+          <br>
+        </p>
+      </div>
+    </div>
+
+
 
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
@@ -41,6 +114,7 @@
     <script src="Circle.js"></script>
     <script src="Point.js"></script>
     <script src="Cube.js"></script>
+    <script src="Hemisphere.js"></script>
     <script src="asg2.js"></script>
   </body>
 </html>
