@@ -21,7 +21,8 @@ let canvas;
 let gl;
 let a_Position;
 let u_FragColor;
-let u_Size;
+let u_ModelMatrix;
+let u_GlobalRotateMatrix;
 
 function setupWebGL() {
   // Retrieve <canvas> element
@@ -79,7 +80,11 @@ function connectVariablesToGLSL() {
 }
 
 // UI Globals
-let g_globalAngle = 0;
+let g_globalAngleX = 0
+let g_globalAngleY = 20;
+let animation = true;
+
+let bodyX = 0;
 
 let leftUpperArmX = 0;
 let leftUpperArmY = 0;
@@ -118,7 +123,9 @@ let rightLegY = 0;
 let rightLegZ = 0;
 
 function addActionsForHtmlUI() {
-  document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+  document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngleY = this.value; renderAllShapes(); });
+  document.getElementById('animationOnButton').onclick = function() {animation = true; };
+  document.getElementById('animationOffButton').onclick = function() {animation = false; };
 
   document.getElementById('LeftUpperArmSlideX').addEventListener('mousemove', function() { leftUpperArmX = this.value; renderAllShapes(); });
   document.getElementById('LeftUpperArmSlideY').addEventListener('mousemove', function() { leftUpperArmY = this.value; renderAllShapes(); });
@@ -172,45 +179,113 @@ function main() {
   // Specify the color for clearing <canvas>
   gl.clearColor(0.271, 0.694, 1.0, 1.0);
 
-  renderAllShapes();
+  requestAnimationFrame(tick);
 }
 
+var g_startTime = performance.now()/1000.0;
+var g_seconds = performance.now()/1000.0-g_startTime;
 
-var g_shapesList = [];
+function tick() {
+  g_seconds = performance.now()/1000.0-g_startTime;
+  updateAnimationAngles();
+  renderAllShapes();
+  requestAnimationFrame(tick);
+}
+
+let poke = false;
+let poke_startTime;
 
 function click(ev) {
-  let [x, y] = convertCoordinatesEventToGL(ev);
-
-  // Create and store new point
-  let point;
-  if (g_selectedType == POINT) {
-    point = new Point();
+  if (ev.shiftKey) {
+    animation = false;
+    poke = true;
+    poke_startTime = performance.now()/1000.0-g_startTime;
   }
-  else if (g_selectedType == TRIANGLE) {
-    point = new Triangle();
+  else {
+    g_globalAngleX = ev.clientY;
+    g_globalAngleY = ev.clientX;
   }
-  else if (g_selectedType == CIRCLE) {
-    point = new Circle();
-    point.segments = g_circleSegments;
-  }
-  point.position = [x, y];
-  point.color = g_selectedColor.slice();
-  point.size = g_selectedSize;
-  g_shapesList.push(point);
-  undoStack = [];
-
-  renderAllShapes();
 }
 
-function convertCoordinatesEventToGL(ev) {
-  var x = ev.clientX; // x coordinate of a mouse pointer
-  var y = ev.clientY; // y coordinate of a mouse pointer
-  var rect = ev.target.getBoundingClientRect();
+function updateAnimationAngles() {
+  if (animation && !poke) {
+    resetAngles();
 
-  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+    leftUpperArmX = 45 * Math.sin(g_seconds);
+    leftLowerArmX = 45;
+    leftHoofX = 15 * Math.sin(g_seconds);
 
-  return [x, y];
+    rightUpperArmX = -45 * Math.sin(g_seconds);
+    rightLowerArmX = 45;
+    rightHoofX = -15 * Math.sin(g_seconds);
+
+    leftLegX = -35 * Math.sin(g_seconds);
+    rightLegX = 35 * Math.sin(g_seconds);
+
+    headX = 10 * Math.sin(g_seconds);
+    headY = 10 * Math.sin(g_seconds);
+  }
+
+  else if (!animation && poke) {
+    resetAngles()
+
+    bodyX = -380 * Math.sin(g_seconds - poke_startTime);
+    headX = 15 * Math.sin(g_seconds - poke_startTime);
+
+    leftUpperArmX = 90 * Math.sin(g_seconds - poke_startTime);
+    leftLowerArmX = 30;
+
+    rightUpperArmX = 90 * Math.sin(g_seconds - poke_startTime);
+    rightLowerArmX = 30;
+
+    leftLegX = 30 * Math.sin(g_seconds - poke_startTime);
+    rightLegX = 90 * Math.sin(g_seconds - poke_startTime);
+
+    if (g_seconds - poke_startTime >= 1.7) {
+      poke = false;
+      animation = true;
+    }
+  }
+}
+
+function resetAngles() {
+  bodyX = 0;
+
+  leftUpperArmX = 0;
+  leftUpperArmY = 0;
+  leftUpperArmZ = 0;
+
+  leftLowerArmX = 0;
+  leftLowerArmY = 0;
+  leftLowerArmZ = 0;
+
+  leftHoofX = 0;
+  leftHoofY = 0;
+  leftHoofZ = 0;
+
+  rightUpperArmX = 0;
+  rightUpperArmY = 0;
+  rightUpperArmZ = 0;
+
+  rightLowerArmX = 0;
+  rightLowerArmY = 0;
+  rightLowerArmZ = 0;
+
+  rightHoofX = 0;
+  rightHoofY = 0;
+  rightHoofZ = 0;
+
+  headX = 0;
+  headY = 0;
+  headZ = 0;
+
+  leftLegX = 0;
+  leftLegY = 0;
+  leftLegZ = 0;
+
+  rightLegX = 0;
+  rightLegY = 0;
+  rightLegZ = 0;
 }
 
 function renderAllShapes() {
@@ -218,7 +293,8 @@ function renderAllShapes() {
   // Check the time at the start of this function
   var startTime = performance.now();
 
-  var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
+  var globalRotMat = new Matrix4().rotate(g_globalAngleX, 1, 0, 0);
+  globalRotMat.rotate(g_globalAngleY, 0, 1, 0);
   gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
   // Clear <canvas>
@@ -228,6 +304,7 @@ function renderAllShapes() {
   var body = new Cube();
   body.color = [1.0, 1.0, 1.0, 1.0];
   body.matrix.translate(-0.25, -0.35, 0.0);
+  body.matrix.rotate(bodyX, 1, 0, 0);
   var bodyCoords = new Matrix4(body.matrix);
   body.matrix.scale(0.35, 0.6, 0.28);
   body.render();
