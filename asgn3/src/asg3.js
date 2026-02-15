@@ -201,43 +201,6 @@ function addActionsForHtmlUI() {
   document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngleY = this.value; renderAllShapes(); });
   document.getElementById('animationOnButton').onclick = function() {animation = true; };
   document.getElementById('animationOffButton').onclick = function() {animation = false; };
-
-  document.getElementById('LeftUpperArmSlideX').addEventListener('mousemove', function() { leftUpperArmX = this.value; renderAllShapes(); });
-  document.getElementById('LeftUpperArmSlideY').addEventListener('mousemove', function() { leftUpperArmY = this.value; renderAllShapes(); });
-  document.getElementById('LeftUpperArmSlideZ').addEventListener('mousemove', function() { leftUpperArmZ = this.value; renderAllShapes(); });
-
-  document.getElementById('LeftLowerArmSlideX').addEventListener('mousemove', function() { leftLowerArmX = this.value; renderAllShapes(); });
-  document.getElementById('LeftLowerArmSlideY').addEventListener('mousemove', function() { leftLowerArmY = this.value; renderAllShapes(); });
-  document.getElementById('LeftLowerArmSlideZ').addEventListener('mousemove', function() { leftLowerArmZ = this.value; renderAllShapes(); });
-
-  document.getElementById('LeftHoofSlideX').addEventListener('mousemove', function() { leftHoofX = this.value; renderAllShapes(); });
-  document.getElementById('LeftHoofSlideY').addEventListener('mousemove', function() { leftHoofY = this.value; renderAllShapes(); });
-  document.getElementById('LeftHoofSlideZ').addEventListener('mousemove', function() { leftHoofZ = this.value; renderAllShapes(); });
-
-  document.getElementById('RightUpperArmSlideX').addEventListener('mousemove', function() { rightUpperArmX = this.value; renderAllShapes(); });
-  document.getElementById('RightUpperArmSlideY').addEventListener('mousemove', function() { rightUpperArmY = this.value; renderAllShapes(); });
-  document.getElementById('RightUpperArmSlideZ').addEventListener('mousemove', function() { rightUpperArmZ = this.value; renderAllShapes(); });
-
-  document.getElementById('RightLowerArmSlideX').addEventListener('mousemove', function() { rightLowerArmX = this.value; renderAllShapes(); });
-  document.getElementById('RightLowerArmSlideY').addEventListener('mousemove', function() { rightLowerArmY = this.value; renderAllShapes(); });
-  document.getElementById('RightLowerArmSlideZ').addEventListener('mousemove', function() { rightLowerArmZ = this.value; renderAllShapes(); });
-
-  document.getElementById('RightHoofSlideX').addEventListener('mousemove', function() { rightHoofX = this.value; renderAllShapes(); });
-  document.getElementById('RightHoofSlideY').addEventListener('mousemove', function() { rightHoofY = this.value; renderAllShapes(); });
-  document.getElementById('RightHoofSlideZ').addEventListener('mousemove', function() { rightHoofZ = this.value; renderAllShapes(); });
-
-  document.getElementById('HeadSlideX').addEventListener('mousemove', function() { headX = this.value; renderAllShapes(); });
-  document.getElementById('HeadSlideY').addEventListener('mousemove', function() { headY = this.value; renderAllShapes(); });
-  document.getElementById('HeadSlideZ').addEventListener('mousemove', function() { headZ = this.value; renderAllShapes(); });
-
-  document.getElementById('LeftLegSlideX').addEventListener('mousemove', function() { leftLegX = this.value; renderAllShapes(); });
-  document.getElementById('LeftLegSlideY').addEventListener('mousemove', function() { leftLegY = this.value; renderAllShapes(); });
-  document.getElementById('LeftLegSlideZ').addEventListener('mousemove', function() { leftLegZ = this.value; renderAllShapes(); });
-
-  document.getElementById('RightLegSlideX').addEventListener('mousemove', function() { rightLegX = this.value; renderAllShapes(); });
-  document.getElementById('RightLegSlideY').addEventListener('mousemove', function() { rightLegY = this.value; renderAllShapes(); });
-  document.getElementById('RightLegSlideZ').addEventListener('mousemove', function() { rightLegZ = this.value; renderAllShapes(); });
-
 }
 
 function initTextures() {
@@ -335,13 +298,10 @@ function main() {
     }
   });
 
-
-
   initTextures();
 
   // Register function (event handler) to be called on a mouse press
   canvas.onmousedown = click;
-  canvas.onmousemove = function(ev) { if(ev.buttons == 1) { click(ev) } };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.271, 0.694, 1.0, 1.0);
@@ -363,15 +323,17 @@ let poke = false;
 let poke_startTime;
 
 function click(ev) {
-  let x = Math.ceil(camera.at.elements[0]) + 16;
-  let y = Math.ceil(camera.at.elements[2]) + 16;
+  if (document.pointerLockElement === canvas) {
+    let x = Math.ceil(camera.at.elements[0]) + 16;
+    let y = Math.ceil(camera.at.elements[2]) + 16;
 
-  if (x >= 0 && x < 32 && y >= 0 && y < 32) {
-    if (g_map[y][x] == 1) {
-      g_map[y][x] = 0;
-    }
-    else {
-      g_map[y][x] = 1;
+    if (x >= 0 && x < 32 && y >= 0 && y < 32) {
+      if (g_map[y][x] == 1) {
+        g_map[y][x] = 0;
+      }
+      else {
+        g_map[y][x] = 1;
+      }
     }
   }
     
