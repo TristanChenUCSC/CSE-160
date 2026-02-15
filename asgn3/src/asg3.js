@@ -313,6 +313,30 @@ function main() {
 
   document.onkeydown = keydown;
 
+  canvas.addEventListener("click", () => {
+    canvas.requestPointerLock();
+  });
+
+
+  canvas.addEventListener("mousemove", (ev) => {
+    if (document.pointerLockElement === canvas) {
+      if (ev.movementX > 0) {
+        camera.panRight(ev.movementX * 0.7);
+      }
+      else if (ev.movementX < 0) {
+        camera.panLeft(-ev.movementX * 0.7);
+      }
+      if (ev.movementY > 0) {
+        camera.panUp(ev.movementY * 0.7);
+      }
+      else if (ev.movementY < 0) {
+        camera.panDown(-ev.movementY * 0.7);
+      }
+    }
+  });
+
+
+
   initTextures();
 
   // Register function (event handler) to be called on a mouse press
@@ -339,19 +363,18 @@ let poke = false;
 let poke_startTime;
 
 function click(ev) {
-  if (ev.shiftKey) {
-    animation = false;
-    poke = true;
-    poke_startTime = performance.now()/1000.0-g_startTime;
-  }
-  else {
-    if (ev.movementX > 0) {
-      camera.panRight(ev.movementX * 0.7);
+  let x = Math.ceil(camera.at.elements[0]) + 16;
+  let y = Math.ceil(camera.at.elements[2]) + 16;
+
+  if (x >= 0 && x < 32 && y >= 0 && y < 32) {
+    if (g_map[y][x] == 1) {
+      g_map[y][x] = 0;
     }
-    else if (ev.movementX < 0) {
-      camera.panLeft(-ev.movementX * 0.7);
+    else {
+      g_map[y][x] = 1;
     }
   }
+    
 }
 
 function updateAnimationAngles() {
@@ -498,7 +521,7 @@ var g_map = [
 function drawMap() {
   for (x=0;x<32;x++) {
     for (y=0;y<32;y++) {
-      if (g_map[x][y] == 1) {
+      if (g_map[y][x] == 1) {
         var cube = new Cube();
         cube.color = [1.0, 1.0, 1.0, 1.0];
         cube.textureNum = 1;
@@ -553,6 +576,14 @@ function renderAllShapes() {
   barn.matrix.translate(-0.5, -0.5, -0.5);
   barn.render();
 
+  // Draw simple sky
+  var sky = new Cube();
+  sky.color = [0.502, 0.792, 0.706, 1.0];
+  sky.matrix.translate(0, 20, 0);
+  sky.matrix.scale(32,0,32);
+  sky.matrix.translate(-0.5, 0, -0.5);
+  sky.render();
+
   // Draw Baby sheep
   renderBabySheep(-0.5, -0.65, 1.5, 0);
   renderBabySheep(0.2, -0.65, 1, 45);
@@ -562,7 +593,7 @@ function renderAllShapes() {
   // body
   var body = new Cube();
   body.color = [1.0, 1.0, 1.0, 1.0];
-  body.matrix.translate(-0.25, -0.35, 0.0);
+  body.matrix.translate(-0.25, -0.38, 0.0);
   body.matrix.rotate(180, 0, 1, 0);
   var bodyCoords = new Matrix4(body.matrix);
   body.matrix.scale(0.35, 0.6, 0.28);

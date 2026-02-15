@@ -86,4 +86,40 @@ class Camera {
         this.at.set(this.eye);
         this.at.add(f_prime);
     }
+
+    panUp(alpha) {
+        let f = new Vector3();
+        f.set(this.at);
+        f.sub(this.eye);
+
+        let s = new Vector3();
+        s = Vector3.cross(this.up, f); 
+        s.normalize();
+        
+        let rotationMatrix = new Matrix4();
+        rotationMatrix.setRotate(alpha, s.elements[0], s.elements[1], s.elements[2]);
+
+        let f_prime = rotationMatrix.multiplyVector3(f);
+        
+        this.at.set(this.eye);
+        this.at.add(f_prime);
+    }
+
+    panDown(alpha) {
+        let f = new Vector3();
+        f.set(this.at);
+        f.sub(this.eye);
+        
+        let s = new Vector3();
+        s = Vector3.cross(this.up, f); 
+        s.normalize();
+
+        let rotationMatrix = new Matrix4();
+        rotationMatrix.setRotate(-alpha, s.elements[0], s.elements[1], s.elements[2]);
+
+        let f_prime = rotationMatrix.multiplyVector3(f);
+
+        this.at.set(this.eye);
+        this.at.add(f_prime);
+    }
 }
