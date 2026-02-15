@@ -358,16 +358,13 @@ function updateAnimationAngles() {
   if (animation && !poke) {
     resetAngles();
 
-    leftUpperArmX = 45 * Math.sin(g_seconds);
+    leftUpperArmX = 15 * Math.sin(g_seconds);
     leftLowerArmX = 45;
     leftHoofX = 15 * Math.sin(g_seconds);
 
-    rightUpperArmX = -45 * Math.sin(g_seconds);
+    rightUpperArmX = 15 * Math.sin(g_seconds);
     rightLowerArmX = 45;
-    rightHoofX = -15 * Math.sin(g_seconds);
-
-    leftLegX = -35 * Math.sin(g_seconds);
-    rightLegX = 35 * Math.sin(g_seconds);
+    rightHoofX = 15 * Math.sin(g_seconds); 
 
     headX = 10 * Math.sin(g_seconds);
     headY = 10 * Math.sin(g_seconds);
@@ -466,21 +463,21 @@ function keydown(ev) {
 var g_map = [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,1,0,0,1,0,0,1,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0],
+  [0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0],
   [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
-  [0,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0],
+  [0,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
   [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
-  [0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
-  [0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0],
   [0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0],
   [0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0],
   [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0],
   [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -494,7 +491,7 @@ var g_map = [
   [0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
   [0,0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],
   [0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0],
-  [0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,0,1,0,1,0,0],
+  [0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1,0,1,0,0],
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
@@ -556,6 +553,12 @@ function renderAllShapes() {
   barn.matrix.translate(-0.5, -0.5, -0.5);
   barn.render();
 
+  // Draw Baby sheep
+  renderBabySheep(-0.5, -0.65, 1.5, 0);
+  renderBabySheep(0.2, -0.65, 1, 45);
+  renderBabySheep(-1.2, -0.65, 1, -45);
+
+  // --- Shawn the Sheep ---
   // body
   var body = new Cube();
   body.color = [1.0, 1.0, 1.0, 1.0];
@@ -801,6 +804,86 @@ function renderAllShapes() {
   var duration = performance.now() - startTime;
   sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration)/10, "numdot");
 
+}
+
+function renderBabySheep(x, y, z, rotateVal) {
+  // body
+  var body = new Cube();
+  body.color = [1.0, 1.0, 1.0, 1.0];
+  body.matrix.translate(x, y, z);
+  body.matrix.rotate(rotateVal, 0, 1, 0);
+  var bodyCoords = new Matrix4(body.matrix);
+  body.matrix.scale(0.25, 0.25, 0.3);
+  body.render();
+
+  // head
+  var head = new Cube();
+  head.color = [0.25, 0.25, 0.25, 1.0];
+  head.matrix = new Matrix4(bodyCoords);
+  head.matrix.translate(0.05, 0.03, -0.15);
+  var headCoords = new Matrix4(head.matrix)
+  head.matrix.scale(0.15, 0.15, 0.15);
+  head.render();
+
+  // leg1
+  var leg1 = new Cube();
+  leg1.color = [0.25, 0.25, 0.25, 1.0];
+  leg1.matrix = new Matrix4(bodyCoords);
+  leg1.matrix.translate(0.15, -0.1, 0.02);
+  leg1.matrix.scale(0.08, 0.11, 0.08);
+  leg1.render();
+
+  // leg2
+  var leg2 = new Cube();
+  leg2.color = [0.25, 0.25, 0.25, 1.0];
+  leg2.matrix = new Matrix4(bodyCoords);
+  leg2.matrix.translate(0.02, -0.1, 0.02);
+  leg2.matrix.scale(0.08, 0.11, 0.08);
+  leg2.render();
+
+  // leg3
+  var leg3 = new Cube();
+  leg3.color = [0.25, 0.25, 0.25, 1.0];
+  leg3.matrix = new Matrix4(bodyCoords);
+  leg3.matrix.translate(0.15, -0.1, 0.2);
+  leg3.matrix.scale(0.08, 0.11, 0.08);
+  leg3.render();
+
+  // leg4
+  var leg4 = new Cube();
+  leg4.color = [0.25, 0.25, 0.25, 1.0];
+  leg4.matrix = new Matrix4(bodyCoords);
+  leg4.matrix.translate(0.02, -0.1, 0.2);
+  leg4.matrix.scale(0.08, 0.11, 0.08);
+  leg4.render();
+
+  // tail
+  var tail = new Cube();
+  tail.color = [1.0, 1.0, 1.0, 1.0];
+  tail.matrix = new Matrix4(bodyCoords)
+  tail.matrix.translate(0.045, 0.12, 0.23);
+  tail.matrix.rotate(45, 1, 0, 0);
+  tail.matrix.scale(0.15, 0.1, 0.15);
+  tail.render();
+
+  // left ear
+  var leftEar = new Cube();
+  leftEar.color = [0.25, 0.25, 0.25, 1.0];
+  leftEar.matrix = new Matrix4(headCoords);
+  leftEar.matrix.translate(0.13, 0.1, 0.025);
+  leftEar.matrix.rotate(-45, 0, 0, 1)
+  leftEar.matrix.scale(0.1, 0.03, 0.1);
+  leftEar.render();
+  
+  // right ear
+  var rightEar = new Cube();
+  rightEar.color = [0.25, 0.25, 0.25, 1.0];
+  rightEar.matrix = new Matrix4(headCoords);
+  rightEar.matrix.translate(0.025, 0.1, 0.025);
+  rightEar.matrix.scale(-1, 1, 1);
+  rightEar.matrix.rotate(-45, 0, 0, 1)
+  rightEar.matrix.scale(0.1, 0.03, 0.1);
+  rightEar.render();
 }
 
 // Set the text of a HTML element
