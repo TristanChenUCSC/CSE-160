@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Assignment 4</title>
+    <style>
+      .row {
+        display: flex;
+        gap: 30px;
+        align-items: flex-start;
+      }
+
+      .column {
+        flex: 0.4;
+      }
+    </style>
+  </head>
+
+  <body onload="main()">
+    <h5>Tristan Chen || trzchen@ucsc.edu</h5>
+    <h5>Notes to Grader: Click canvas to activate mouse controls, WASD movement, Q/E can also be used for panning. Left click to place/break hay blocks. <br> Story: Shaun the Sheep babysits a group of baby sheep at a farm.</h5>
+    <canvas id="webgl" width="600" height="600">
+    Please use a browser that supports "canvas"
+    </canvas>
+    <p>
+    <div class="row">
+      <div class="column">
+        <p id="numdot"> XXX </p>
+        <p>
+        Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="angleSlide">
+        Animation: 
+        <button type="button" id="animationOnButton">ON</button>
+        <button type="button" id="animationOffButton">OFF</button>
+        </p>
+      </div>
+      
+    </div>
+
+
+
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/cuon-matrix-cse160.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Point.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Hemisphere.js"></script>
+    <script src="Camera.js"></script>
+    <script src="asg4.js"></script>
+  </body>
+</html>
