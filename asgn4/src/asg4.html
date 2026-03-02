@@ -19,7 +19,7 @@
   <body onload="main()">
     <h5>Tristan Chen || trzchen@ucsc.edu</h5>
     <h5>Notes to Grader: Click canvas to activate mouse controls, WASD movement, Q/E can also be used for panning. Left click to place/break hay blocks. <br> Story: Shaun the Sheep babysits a group of baby sheep at a farm.</h5>
-    <canvas id="webgl" width="600" height="600">
+    <canvas id="webgl" width="550" height="550">
     Please use a browser that supports "canvas"
     </canvas>
     <p>
@@ -27,17 +27,31 @@
       <div class="column">
         <p id="numdot"> XXX </p>
         <p>
-        Camera Angle <input type="range" min="-180" max="180" value="0" class="slider" id="angleSlide">
+        <button type="button" id="normalOn">Normal On</button>
+        <button type="button" id="normalOff">Normal Off</button>
+        </p>
+        <p>
         Animation: 
         <button type="button" id="animationOnButton">ON</button>
         <button type="button" id="animationOffButton">OFF</button>
-        </p>
-        <p>
-          <button type="button" id="normalOn">Normal On</button>
-          <button type="button" id="normalOff">Normal Off</button>
+        Light:
+        <button type="button" id="lightOnButton">ON</button>
+        <button type="button" id="lightOffButton">OFF</button>
         </p>
       </div>
-      
+      <div class="column">
+        <p>
+          Light X <input type="range" min="-250" max="250" value="0" class="slider" id="lightSlideX">
+          Light Y <input type="range" min="50" max="550" value="300" class="slider" id="lightSlideY">
+          Light Z <input type="range" min="-650" max="-150" value="-400" class="slider" id="lightSlideZ">
+        </p>
+        <p>
+          Light Color:
+          R <input type="range" min="0" max="255" value="255" class="slider" id="lightSlideR">
+          G <input type="range" min="0" max="255" value="255" class="slider" id="lightSlideG">
+          B <input type="range" min="0" max="255" value="255" class="slider" id="lightSlideB">
+        </p>
+      </div>
     </div>
 
 
@@ -51,6 +65,7 @@
     <script src="Point.js"></script>
     <script src="Cube.js"></script>
     <script src="Hemisphere.js"></script>
+    <script src="Sphere.js"></script>
     <script src="Camera.js"></script>
     <script src="asg4.js"></script>
   </body>

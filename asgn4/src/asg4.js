@@ -7,6 +7,7 @@ var VSHADER_SOURCE = `
   attribute vec3 a_Normal;
   varying vec2 v_UV;
   varying vec3 v_Normal;
+  varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotateMatrix;
   uniform mat4 u_ViewMatrix;
@@ -15,6 +16,7 @@ var VSHADER_SOURCE = `
     gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
     v_Normal = a_Normal;
+    v_VertPos = u_ModelMatrix * a_Position;
   }`
 
 // Fragment shader program
@@ -26,6 +28,11 @@ var FSHADER_SOURCE = `
   uniform sampler2D u_Sampler0;
   uniform sampler2D u_Sampler1;
   uniform int u_whichTexture;
+  uniform vec4 u_lightColor;
+  uniform vec3 u_lightPos;
+  uniform vec3 u_cameraPos;
+  varying vec4 v_VertPos;
+  uniform bool u_lightOn;
   void main() {
     
     if (u_whichTexture == -3) {
@@ -47,6 +54,30 @@ var FSHADER_SOURCE = `
       gl_FragColor = vec4(1, 0.2, 0.2, 1);
     }
 
+    gl_FragColor = gl_FragColor * u_lightColor;
+    vec3 lightVector = u_lightPos - vec3(v_VertPos) ;
+    float r = length(lightVector);
+
+    // N dot L
+    vec3 L = normalize(lightVector);
+    vec3 N = normalize(v_Normal);
+    float nDotL = max(dot(N,L), 0.0);
+
+    // Reflection
+    vec3 R = reflect(-L, N);
+
+    // eye
+    vec3 E = normalize(u_cameraPos-vec3(v_VertPos));
+
+    // Specular
+    float specular = pow(max(dot(E,R), 0.0), 10.0);
+
+    vec3 diffuse = vec3(gl_FragColor) * nDotL;
+    vec3 ambient = vec3(gl_FragColor) * 0.3;
+
+    if (u_lightOn) {
+      gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
+    }
   }`
 
 // Global Variables
@@ -56,6 +87,10 @@ let a_Position;
 let a_UV;
 let a_Normal;
 let u_FragColor;
+let u_lightColor;
+let u_lightPos;
+let u_cameraPos;
+let u_lightOn;
 let u_whichTexture;
 let u_ModelMatrix;
 let u_ProjectionMatrix;
@@ -111,6 +146,34 @@ function connectVariablesToGLSL() {
   u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
   if (!u_FragColor) {
     console.log('Failed to get the storage location of u_FragColor');
+    return;
+  }
+
+  // Get the storage location of u_lightColor
+  u_lightColor = gl.getUniformLocation(gl.program, 'u_lightColor');
+  if (!u_lightColor) {
+    console.log('Failed to get the storage location of u_lightColor');
+    return;
+  }
+
+  // Get the storage location of u_lightPos
+  u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
+  if (!u_lightPos) {
+    console.log('Failed to get the storage location of u_lightPos');
+    return;
+  }
+
+  // Get the storage location of u_cameraPos
+  u_cameraPos = gl.getUniformLocation(gl.program, 'u_cameraPos');
+  if (!u_cameraPos) {
+    console.log('Failed to get the storage location of u_cameraPos');
+    return;
+  }
+
+  // Get the storage location of u_lightOn
+  u_lightOn = gl.getUniformLocation(gl.program, 'u_lightOn');
+  if (!u_lightOn) {
+    console.log('Failed to get the storage location of u_lightOn');
     return;
   }
 
@@ -174,6 +237,9 @@ let g_globalAngleX = 0
 let g_globalAngleY = 20;
 let animation = true;
 let g_normalOn = false;
+let g_lightOn = true;
+let g_lightPos = [0, 3, -4];
+let g_lightRGBA = [1, 1, 1, 1];
 
 let bodyX = 0;
 
@@ -214,11 +280,23 @@ let rightLegY = 0;
 let rightLegZ = 0;
 
 function addActionsForHtmlUI() {
-  document.getElementById('angleSlide').addEventListener('mousemove', function() { g_globalAngleY = this.value; renderAllShapes(); });
   document.getElementById('animationOnButton').onclick = function() {animation = true; };
   document.getElementById('animationOffButton').onclick = function() {animation = false; };
+
+  document.getElementById('lightOnButton').onclick = function() {g_lightOn = true; };
+  document.getElementById('lightOffButton').onclick = function() {g_lightOn = false; };
+
   document.getElementById('normalOn').onclick = function() {g_normalOn = true; };
   document.getElementById('normalOff').onclick = function() {g_normalOn = false; };
+
+  document.getElementById('lightSlideX').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightPos[0] = this.value/100; renderAllShapes();}});
+  document.getElementById('lightSlideY').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightPos[1] = this.value/100; renderAllShapes();}});
+  document.getElementById('lightSlideZ').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightPos[2] = this.value/100; renderAllShapes();}});
+
+  document.getElementById('lightSlideR').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightRGBA[0] = this.value/255; renderAllShapes();}});
+  document.getElementById('lightSlideG').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightRGBA[1] = this.value/255; renderAllShapes();}});
+  document.getElementById('lightSlideB').addEventListener('mousemove', function(ev) {if (ev.buttons == 1) {g_lightRGBA[2] = this.value/255; renderAllShapes();}});
+
 }
 
 function initTextures() {
@@ -360,6 +438,8 @@ function click(ev) {
 function updateAnimationAngles() {
   if (animation && !poke) {
     resetAngles();
+
+    g_lightPos[0] = 2.5 * Math.cos(g_seconds);
 
     leftUpperArmX = 15 * Math.sin(g_seconds);
     leftLowerArmX = 45;
@@ -557,6 +637,29 @@ function renderAllShapes() {
   sky.matrix.scale(-32,-32,-32);
   sky.matrix.translate(-0.5, -0.5, -0.5);
   sky.render();
+
+  gl.uniform4f(u_lightColor, g_lightRGBA[0], g_lightRGBA[1], g_lightRGBA[2], g_lightRGBA[3]);
+
+  gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+
+  gl.uniform3f(u_cameraPos, camera.eye.elements[0], camera.eye.elements[1], camera.eye.elements[2]);
+
+  gl.uniform1i(u_lightOn, g_lightOn)
+
+  // Draw the Light
+  var light = new Cube();
+  light.color = [2, 2, 0, 1];
+  light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+  light.matrix.scale(-.1, -.1, -.1);
+  light.matrix.translate(-0.5, -0.5, -0.5);
+  light.render();
+
+  // Draw Sphere
+  var sphere = new Sphere();
+  sphere.color = [1, 1, 1, 1];
+  if (g_normalOn) sphere.textureNum = -3;
+  sphere.matrix.translate(-0.3, 0.25, -5);
+  sphere.render();
 
   // Draw Baby sheep
   renderBabySheep(-0.5, -0.65, 1.5, 0);
