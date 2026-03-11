@@ -9,9 +9,8 @@ function main() {
     music.volume = 0.2;
     
     function startMusic() {
-        music.currentTime = 0;   // reset to start
+        music.currentTime = 0;
         music.play().catch(err => {
-            console.log('Retrying audio...');
             setTimeout(() => music.play(), 100);
         });
     }
