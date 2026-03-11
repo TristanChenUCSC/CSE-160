@@ -9,11 +9,14 @@ function main() {
     music.volume = 0.2;
     
     function startMusic() {
-        music.play().catch(() => {});
-        window.removeEventListener('pointerdown', startMusic);
+        music.currentTime = 0;   // reset to start
+        music.play().catch(err => {
+            console.log('Retrying audio...');
+            setTimeout(() => music.play(), 100);
+        });
     }
     
-    window.addEventListener('pointerdown', startMusic);
+    window.addEventListener('pointerdown', startMusic, { once: true });
 
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
