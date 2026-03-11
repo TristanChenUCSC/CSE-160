@@ -69,22 +69,23 @@ function main() {
 
     // Lighting
     const color = 0xFFFFFF;
-    const intensity = 3;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 0, 0); //(-1, 2, 4)
-    scene.add(light);
 
-    const light2 = new THREE.DirectionalLight(color, intensity);
-    light2.position.set(1, 0, 0);
-    scene.add(light2);
+    const ambientLight = new THREE.AmbientLight(color, 0.75);
 
-    const light3 = new THREE.DirectionalLight(color, intensity);
-    light3.position.set(0, 0, -1);
-    scene.add(light3);
+    const directionalLight = new THREE.DirectionalLight(color, 3);
+    directionalLight.position.set(8, 6, 8);
+    directionalLight.target.position.set(0, 0, 0);
 
-    const light4 = new THREE.DirectionalLight(color, intensity);
-    light4.position.set(0, 0, 1);
-    scene.add(light4);
+    const spotLight = new THREE.SpotLight(0xFF0000, 1000)
+    spotLight.position.set(0, 10, 0);
+    spotLight.angle = degToRad(45);
+    spotLight.distance = 100;
+    spotLight.target.position.set(0, 10, -20);
+
+
+    scene.add(ambientLight);
+    scene.add(directionalLight);
+    scene.add(spotLight);
 
     // Meshes
     const gojo = createGojo();
@@ -95,6 +96,23 @@ function main() {
     const sukuna = createSukuna();
     sukuna.position.set(0, 8, -7);
     scene.add(sukuna);
+
+    const sphereGeometry = new THREE.SphereGeometry(0.25, 32, 16)
+
+    const textureLoader = new THREE.TextureLoader();
+    const redTexture = textureLoader.load('../assets/red_texture.jpg');
+    const blueTexture = textureLoader.load('../assets/blue_texture.jpg');
+
+    const redMaterial = new THREE.MeshPhongMaterial({ map: redTexture });
+    const blueMaterial = new THREE.MeshPhongMaterial({ map: blueTexture });
+
+    const redSphere = new THREE.Mesh(sphereGeometry, redMaterial);
+    redSphere.position.set(1.2, 3, 6);
+    scene.add(redSphere);
+
+    const blueSphere = new THREE.Mesh(sphereGeometry, blueMaterial);
+    blueSphere.position.set(-1.2, 3, 6);
+    scene.add(blueSphere);
 
     // Objects
     const gltfLoader = new GLTFLoader;
@@ -108,15 +126,34 @@ function main() {
         }
     )
 
+    // Hollow Purple
+    let fusionTriggered = false;
+    let purpleSphere = null;
+    let fusionStartTime = 0;
+    const fusionDuration = 5; 
 
+    window.addEventListener('click', (e) => {
+        if (keys['shift'] && !fusionTriggered) {
+            fusionTriggered = true;
+            fusionStartTime = performance.now() * 0.001;
+        }
+    });
+    
     renderer.render(scene, camera);
 
     function updateCamera() {
         camera.updateProjectionMatrix();
     }
 
+    const radius = 2;
+    const centerX = 0;
+    const centerY = 3;
+    let lastTime = 0;
     function render(time) {
         time *= 0.001;  // convert time to seconds
+
+        const deltaTime = time - lastTime;
+        lastTime = time;
 
         const lookDir = new THREE.Vector3();
         camera.getWorldDirection(lookDir);
@@ -131,6 +168,42 @@ function main() {
         if (keys['d']) camera.position.addScaledVector(right, moveSpeed);
 
         controls.target.copy(camera.position).add(lookDir);
+
+        // Animations
+        if (!fusionTriggered) {
+            redSphere.position.x = centerX + radius * Math.cos(time);
+            redSphere.position.y = centerY + radius * Math.sin(time);
+    
+            blueSphere.position.x = centerX + radius * Math.cos(time + Math.PI);
+            blueSphere.position.y = centerY + radius * Math.sin(time + Math.PI);
+        } else {
+            redSphere.visible = false;
+            blueSphere.visible = false;
+    
+            if (!purpleSphere) {
+                const purpleTexture = textureLoader.load('../assets/purple_texture.jpg');
+                const purpleMaterial = new THREE.MeshPhongMaterial({ map: purpleTexture });
+                purpleSphere = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 16), purpleMaterial);
+                purpleSphere.position.set(centerX, centerY, 6);
+                purpleSphere.scale.set(20,20,20);
+                scene.add(purpleSphere);
+            }
+            
+            const elapsed = time - fusionStartTime;
+            purpleSphere.position.y += 10 * deltaTime;
+            purpleSphere.position.z -= 20 * deltaTime;      
+
+            if (elapsed > fusionDuration) {
+                fusionTriggered = false;
+                redSphere.visible = true;
+                blueSphere.visible = true;
+        
+                scene.remove(purpleSphere);
+                purpleSphere.geometry.dispose();
+                purpleSphere.material.dispose();
+                purpleSphere = null;
+            }
+        }
        
         renderer.render(scene, camera);
        
