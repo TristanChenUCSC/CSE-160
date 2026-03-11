@@ -7,7 +7,13 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 function main() {
     const music = document.getElementById('bg-music');
     music.volume = 0.2;
-    music.play();
+    
+    function startMusic() {
+        music.play();
+        window.removeEventListener('click', startMusic);
+    }
+    
+    window.addEventListener('click', startMusic);
 
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
