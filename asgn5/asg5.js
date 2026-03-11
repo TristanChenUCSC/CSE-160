@@ -57,12 +57,12 @@ function main() {
     {
         const skyboxLoader = new THREE.CubeTextureLoader();
         const texture = skyboxLoader.load([
-          '../assets/void1.jpg',
-          '../assets/void3.jpg',
-          '../assets/void5.jpg',
-          '../assets/void6.jpg',
-          '../assets/void2.jpg',
-          '../assets/void4.jpg',
+          'assets/void1.jpg',
+          'assets/void3.jpg',
+          'assets/void5.jpg',
+          'assets/void6.jpg',
+          'assets/void2.jpg',
+          'assets/void4.jpg',
         ]);
         scene.background = texture;
     }
@@ -100,8 +100,8 @@ function main() {
     const sphereGeometry = new THREE.SphereGeometry(0.25, 32, 16)
 
     const textureLoader = new THREE.TextureLoader();
-    const redTexture = textureLoader.load('../assets/red_texture.jpg');
-    const blueTexture = textureLoader.load('../assets/blue_texture.jpg');
+    const redTexture = textureLoader.load('assets/red_texture.jpg');
+    const blueTexture = textureLoader.load('assets/blue_texture.jpg');
 
     const redMaterial = new THREE.MeshPhongMaterial({ map: redTexture });
     const blueMaterial = new THREE.MeshPhongMaterial({ map: blueTexture });
@@ -117,7 +117,7 @@ function main() {
     // Objects
     const gltfLoader = new GLTFLoader;
     gltfLoader.load(
-        '../assets/Malevolent_shrine.glb',
+        'assets/Malevolent_shrine.glb',
 
         function (gltf) {
             const model = gltf.scene;
@@ -181,7 +181,7 @@ function main() {
             blueSphere.visible = false;
     
             if (!purpleSphere) {
-                const purpleTexture = textureLoader.load('../assets/purple_texture.jpg');
+                const purpleTexture = textureLoader.load('assets/purple_texture.jpg');
                 const purpleMaterial = new THREE.MeshPhongMaterial({ map: purpleTexture });
                 purpleSphere = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 16), purpleMaterial);
                 purpleSphere.position.set(centerX, centerY, 6);
@@ -235,7 +235,7 @@ function createGojo() {
     // hair
     const gltfLoader = new GLTFLoader;
     gltfLoader.load(
-        '../assets/hair.glb',
+        'assets/hair.glb',
 
         function (gltf) {
             const model = gltf.scene;
@@ -371,7 +371,7 @@ function createSukuna(){
     // hair
     const gltfLoader = new GLTFLoader;
     gltfLoader.load(
-        '../assets/hair.glb',
+        'assets/hair.glb',
 
         function (gltf) {
             const model = gltf.scene;
@@ -390,7 +390,7 @@ function createSukuna(){
 
     // Face texture
     const textureLoader = new THREE.TextureLoader();
-    const faceTexture = textureLoader.load('../assets/sukuna_face.png');
+    const faceTexture = textureLoader.load('assets/sukuna_face.png');
 
     const faceMaterial = new THREE.MeshPhongMaterial({
         color: 0xffdbac,
