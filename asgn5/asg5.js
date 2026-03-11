@@ -9,11 +9,11 @@ function main() {
     music.volume = 0.2;
     
     function startMusic() {
-        music.play();
-        window.removeEventListener('click', startMusic);
+        music.play().catch(() => {});
+        window.removeEventListener('pointerdown', startMusic);
     }
     
-    window.addEventListener('click', startMusic);
+    window.addEventListener('pointerdown', startMusic);
 
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
